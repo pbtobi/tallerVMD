@@ -1,0 +1,83 @@
+timestep        1.0
+numsteps        5000000
+firsttimestep   0
+paraTypeCharmm  on
+parameters      /Users/lalo/toppar/par_all36_prot.prm
+parameters      /Users/lalo/toppar/par_all36_lipid.prm
+parameters      /Users/lalo/toppar/par_water36.inp
+parameters      /Users/lalo/toppar/par_cyspalm-saam.inp
+
+structure       make_next/fshr-ile_polimorf.psf
+coordinates     make_next/fshr-ile_polimorf.pdb 
+                                                                                                                  
+#set input       hrh-native06
+set output      nvt00
+                                                                                                                  
+#bincoordinates $input.coor
+#binvelocities  $input.vel              #the corresponding velocities
+temperature     0                       # for minimization 0
+                                                                                                                  
+outputname      $output
+outputEnergies  1000
+outputTiming    1000
+outputPressure  1000
+                                                                                                                  
+stepspercycle   8
+rigidBonds      all
+fullElectFrequency      1
+nonbondedFreq   1
+                                                                                                                  
+exclude         scaled1-4
+1-4scaling      1.0
+switching       on
+switchdist      10.0
+cutoff          11.0
+pairlistdist    12.5
+                                                                                                                  
+restartname     $output
+restartfreq     1000
+                                                                                                                  
+#extendedSystem $input.xsc
+cellBasisVector1       90,  0.0,  0.0
+cellBasisVector2       0.0,  105,  0.0
+cellBasisVector3       0.0,  0.0,  114
+                                                                                                                  
+DCDfile         $output.dcd
+DCDfreq         1000
+DCDUnitCell     yes
+                                                                                                                  
+XSTfile         $output.xst
+XSTfreq         1000
+                                                                                                                  
+PME             on
+PMEGridSizeX    135
+PMEGridSizeY    135
+PMEGridSizeZ    100
+langevin        on
+langevinDamping 5
+langevinTemp    300
+                                                                                                                  
+#constraints     on
+#consref         heavy1.pdb #02 Kcal/mol 
+#conskfile       heavy1.pdb #02 Kcal/mol
+#conskcol        B
+
+#selectConstraints   on
+#selectConstrZ    on
+#tclForces        on
+#tclForcesScript  densRestraint.tcl                                                                                                                
+#fixedatoms      on
+#fixedatomsfile  heavy1.pdb #protein fixed
+#fixedatomscol   B
+#fixedatomsforces on
+                                                                                                                 
+#useGroupPressure        yes     #must be used with rigigBonds (shake)
+#useFlexibleCell         yes     #box dimension can fluctuate
+#LangevinPiston          on      #use Langevin piston pressure control
+#LangevinPistonTarget    1.0     #pressure in bar
+#LangevinPistonPeriod    200
+#LangevinPistonDecay     100
+#LangevinPistonTemp      300
+                                                                                                                  
+minimize        3000
+run             200000
