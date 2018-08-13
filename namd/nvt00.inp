@@ -1,0 +1,80 @@
+timestep        1.0
+numsteps        2000000
+firsttimestep   0
+structure       ubq.psf 
+paraTypeCharmm  on
+parameters      par_all36_prot.prm
+parameters      par_water36.inp
+coordinates     ubq.pdb  
+                                                                                                                  
+#set input       hrh-r123l25
+set output      nvt00
+                                                                                                                  
+#bincoordinates $input.coor
+#binvelocities  $input.vel              #the corresponding velocities
+temperature     0                       # for minimization 0
+                                                                                                                  
+outputname      $output
+outputEnergies  1000
+outputTiming    1000
+outputPressure  1000
+                                                                                                                  
+stepspercycle   8
+rigidBonds      all
+fullElectFrequency      1
+nonbondedFreq   1
+                                                                                                                  
+exclude         scaled1-4
+1-4scaling      1.0
+switching       on
+switchdist      10.0
+cutoff          11.0
+pairlistdist    12.5
+                                                                                                                  
+restartname     $output
+restartfreq     1000
+                                                                                                                  
+#extendedSystem $input.xsc
+cellBasisVector1      54.0  0.0 0.0
+cellBasisVector2       0.0 54. 0.0
+cellBasisVector3       0.0 0.0 54.0
+                                                                                                                  
+DCDfile         $output.dcd
+DCDfreq         1000
+DCDUnitCell     yes
+                                                                                                                  
+XSTfile         $output.xst
+XSTfreq         1000
+                                                                                                                  
+PME             on
+PMEGridSizeX    60
+PMEGridSizeY    60
+PMEGridSizeZ    60
+langevin        on
+langevinDamping 1
+langevinTemp    300
+                                                                                                                  
+#constraints     on
+#consref         heavy50.pdb #02 Kcal/mol 
+#conskfile       heavy50.pdb #02 Kcal/mol
+#conskcol        B
+#selectConstraints   on
+#selectConstrZ    on
+#tclForces        on
+#tclForcesScript  densRestraint.tcl                                                                                                                
+#fixedatoms      on
+#fixedatomsfile  heavy1.pdb #protein fixed
+#fixedatomscol   B
+#fixedatomsforces on
+                                                                                                                  
+#useGroupPressure        yes     #must be used with rigigBonds (shake)
+#useFlexibleCell         yes     #box dimension can fluctuate
+#LangevinPiston          on      #use Langevin piston pressure control
+#LangevinPistonTarget    1.0     #pressure in bar
+#LangevinPistonPeriod    200
+#LangevinPistonDecay     100
+#LangevinPistonTemp      300
+                                                                                                                  
+minimize        8000
+run             200000
+

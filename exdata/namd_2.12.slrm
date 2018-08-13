@@ -1,0 +1,21 @@
+#!/bin/bash
+# 
+### Partición q1d-40p ###
+#SBATCH -p q1d-80p
+#
+### Nombre del trabajo ###
+#SBATCH --job-name=ala-R1
+#SBATCH -n 80
+#SBATCH --ntasks=80
+#
+### Se solicita 1 día de ejecución  para este trabajo ### 
+#SBATCH -t 1-0
+#
+### A continuación todos los comandos necesarios para ejecutar  ###
+### el programa de interés 
+##############################################################
+##############################################################
+
+module load namd/2.12 
+
+mpiexec.hydra -bootstrap slurm namd2 npt03.inp > npt03.out 

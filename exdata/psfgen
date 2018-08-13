@@ -1,0 +1,45 @@
+/home/tobias/opt/NAMD_2.12_Linux-x86_64-multicore/psfgen << ENDMOL
+
+topology top_all36_prot.rtf
+topology top_water36.rtf
+
+alias residue HIS HSE
+alias atom ILE CD1 CD
+pdbalias atom GLY OXT OT2
+alias residue HOH TIP3
+pdbalias atom TIP3 O OH2
+
+segment UBQ {
+     first NTER
+     pdb ubq-center.pdb 
+     last CTER
+}
+coordpdb ubq-center.pdb UBQ 
+
+
+segment W1 {
+  auto none
+  first none
+  last none
+  pdb WAT.PDB 
+}
+coordpdb WAT.PDB W1
+
+
+segment SOD {
+    pdb SOD.PDB 
+}
+coordpdb SOD.PDB SOD
+
+segment CLA {
+    pdb CLA.PDB
+}
+coordpdb CLA.PDB CLA
+
+
+guesscoord
+
+writepdb ubq.pdb
+writepsf ubq.psf
+
+ENDMOL
