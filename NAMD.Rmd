@@ -1,0 +1,13 @@
+---
+title: "Ejercicios"
+author: "Eduardo Jardón"
+date: "8 de agosto, 2018"
+vignette: >
+  %\VignetteIndexEntry{Keynote}
+  %\VignetteEngine{knitr::rmarkdown}
+output: 
+  Imágenes
+---
+
+Files:
+
