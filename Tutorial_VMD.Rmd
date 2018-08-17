@@ -5,10 +5,13 @@ Dr. Eduardo Jardón<br />
 Departamemto de Recursos de la Tierra<br />
 División de Ciencias Básicas e Ingeniería UAM-Lerma<br />
 <br /><br />
-M en C Tobías Portillo Bobadilla<br />
-Red de Apoyo a la Investigación, Instituto Nacional de Ciencias Médicas y Nutrición Salvador Zubirán<br />
+M. en C. Tobías Portillo Bobadilla<br />
+Red de Apoyo a la Investigació, UNAM en el Instituto Nacional de Ciencias Médicas y Nutrición Salvador Zubirán<br />
+http://rai.unam.mx <br />
 <br />
 
+Ejercicio 1. [Representación del ADN][1]
+Ejercicio 2. [Generación de una imagen de alta resolución][2]
 
 
 ## Introducción
@@ -30,7 +33,7 @@ fracción de la cantidad de secuencias caracterizados y depositadas en el GenBan
 millones). La brecha estructural entre las secuencias y las estructuras tridimensionales conocidas
 es resultado de la dificultad para resolver la disposición espacial de los átomos. Como una
 estrategia para reducir la brecha estructural se usan cada vez más herramientas computacionales
-que, hoy en día, permiten generar modelos a partir de secuencias homólogas (similitud &gt; 30 %)
+que, hoy en día, permiten generar modelos a partir de secuencias homólogas (similitud > 30 %)
 y/o identificar cambios conformacionales asociados a la función biológica. En este tutorial se
 muestran algunos ejemplos con la secuencia de comandos (paso a paso) para visualizar
 estructuras de proteínas, generar una caja de simulación, ejecutar NAMD para generar una
@@ -66,7 +69,7 @@ LINUX_64 OpenGL, CUDA, OptiX y OSPRay, lo que obtenemos es un archivo comprimido
 > recomendamos guardar el archivo en tu directorio de trabajo o bien en una carpeta dedicada
 > a las instalaciones. Usaremos el símbolo “ &gt;” para representar el cursor y “√” como
 > símbolo de “presionar enter/return”. La tecla “tab” es muy útil porque completa los nombres
-> de archivos, intenta: ` &gt; ls vmd”tab” `*
+> de archivos, intenta: `ls vmd”tab” `*
 
 ```console
 > ls vmd“tab”“√”
@@ -89,13 +92,13 @@ descarga a éste y cambiarte al mismo para descomprimirla e iniciar con la insta
 > tar zxvf vmd-1.9.3.bin.LINUXAMD64-CUDA8-OptiX4-OSPRay111p1.opengl.tar.gz
 > cd vmd-1.9.3
 > pwd
-$ ls
+> ls
 ```
 ![](figures/vmd_untared_dir.png)
-Figura 2. Comandos “pwd” y “ls” en la carpeta /opt/vmd/vmd-1.9.3.
+Figura 2. Comandos “pwd” y “ls” en la carpeta `/opt/vmd/vmd-1.9.3`.
 
 **Configuración Personalizada sin Privilegios de Administrador**. Esta configuración requiere
-de más pasos pero no es necesario el `sudo` o ser root. Debemos editar el archivo `configure` para
+de más pasos pero no es necesario el `sudo` o ser root. Debemos editar el archivo `**configure**` para
 definir los directorios donde se copiarán las librerías y los ejecutables. Primero creamos un
 directorio `~/opt` para guardar el archivo comprimido que hemos descargado y otro directorio
 `~/bin` para los archivos ejecutables. Descomprimimos con la instrucción `tar zxvf`.
@@ -115,21 +118,22 @@ tobias@amiba:~/opt$ tar zxvf vmd-1.9.3.bin.LINUXAMD64-CUDA8-OptiX4-OSPRay111p1.o
 > nano configure
 ```
 
-Este último comando `nano` abre el archivo **`configure`** en el editor de textos. Los colores pueden variar. Otros editores comunos que puedes utilizar son `vim` o `sublime_text`.
+Este último comando `nano` abre el archivo `**configure**` en el editor de textos. Los colores pueden variar. Otros editores comunos que puedes utilizar son `vim` o `sublime_text`.
 
 ![](figures/vmd_configure_file.png)
-Figura 3. Ventana para edición de archivo configure.
+Figura 3. Ventana para edición de archivo `**configure**`.
 
 Las variables **$install_bin_dir** e **$install_library_dir** hacen referencia al directorio en donde se
 guardan los ejecutables de VMD. Debemos modificar estas variables cuando se realiza una
 instalación personalizada, o bien cuando no se cuentan con los prvilegios de *superusuario*.
 
-> Cambiar lo siguiente:
-> “/usr/local/bin” por “/home/tobias/bin”
-> “/usr/local/lib/$install_name” por “/home/tobias/lib/$install_name”
+Cambiar lo siguiente:
 
-> **Nota:* En este ejemplo la cuenta del usuario es **“tobias”** y previamente se ha creado el
-directorio **“bin”** y **“lib”**. Hacer los cambios usando tu propio nombre de usuario.
+  “/usr/local/bin” por “/home/tobias/bin”<br />
+  “/usr/local/lib/$install_name” por “/home/tobias/lib/$install_name”<br />
+
+> **NOTA:** En este ejemplo la cuenta del usuario es **tobias** y previamente se ha creado el
+directorio **bin** y **lib**. Hacer los cambios usando tu propio nombre de usuario.
 
 Guardar y salir del editor. Existe un archivo `README` que contiene información más detallada
 sobre la instalación y cofiguración de VMD (sección: “*Quick Installation Instructions*”).
@@ -154,8 +158,10 @@ VMD installation complete. **Enjoy!!! Si todo fue exitoso**, se verán los sigui
 Figura 5. Salida del comando `ls` en el directorio personalizado `~/lib/vmd`. Si nuestra instalación
 no fue personalizada los archivos estarán en el directorio `/usr/local/lib/vmd/`
 
-> **NOTA:** En este ejemplo la instalación personalizada fue relizada para el usuario **tobias**. En la
+> **NOTA:** Observa que la instalación personalizada fue relizada para el usuario **tobias**. En la
 > instalación con provilegios de administrador **no fue necesario editar** el archivo configure.
+
+Regresamos al directorio de inicio (`~/` o bien específicamente `/home/tobias/`)
 
 ```console
 > cd
@@ -163,67 +169,79 @@ no fue personalizada los archivos estarán en el directorio `/usr/local/lib/vmd/
 
 **CONFIGURACIÓN DEL PATH**
 
-En el caso de la instalación personalizada es necesario incluir la trayectoria de nuestra nueva
-aplicación en la variale de entorno **PATH**. Tomando como ejemplo la cuenta de **tobias**, se
+En el caso de la instalación personalizada es necesario incluir la ubicación de nuestra nueva
+aplicación en la variable de entorno **PATH**. Tomando como ejemplo la cuenta de **tobias**, se
 procede de la siguiente forma:
 
 ```console
 > echo $PATH
 ```
 ![](figures/vmd_path.png)
-Figura 6a. Variable de entorno **PATH**. El valor de la variable se despliega con `$PATH`.
+Figura 6a. El valor de la [variable de entorno][] **PATH** se despliega con `$PATH`. Las diferentes ubicaciones están separadas por `**:**`
+
+[variable de entorno]: [https://bioinf.comav.upv.es/courses/unix/variables_de_entorno.html]
+
+Observamos los diversos directorios en donde el sistema ubica a los programas de Linux. Lo que haremos es agregar nuestro directorio `~/bin` al **PATH**:
 
 ```console
 > PATH=/home/tobias/bin:$PATH
 > export PATH
 > echo $PATH
 ```
-![](figures/vmd_path_actualizado.png)
-Figura 6b. Variable de entorno PATH actualizada con la aplicación VMD. El comando exporta
-la variable PATH al ambiente Linux, así el sistema encuentra la ubicación de los ejecutables.
+Hemos exportado la nueva configuración para que tenga efecto inmediato. Al exportar la variable PATH al ambiente Linux el sistema reconoce los ejecutables que en esos directorios se almacenen. En adelante, cualquier archivo o código que pongamos en `~/bin` será reconocido como un *comando* o programa del sistema. Nuevamente usamos `echo` para mostrar el valor del **PATH**.
 
-> **NOTA:** Para que el PATH sea actualizado permanentemente se debe editar el archivo .bashrc
-> que se encuentra en el home del usuario. El punto al inicio del nombre indica un archivo oculto,
-> los podemos ver con ls -a ~/.bashrc. A este debemos agregar la siguiente línea con:
-> export PATH=/home/tobias/bin:$PATH
-> o bien si no existen ~/.bashrc ni ~/.bash_profile los podemos generar desde una terminal:
-> &gt; echo &#39;export PATH=&quot;/home/tobias/bin:$PATH&quot;&#39; &gt;&gt; ~/.bashrc √
-> &gt; echo &#39;source ~/.bashrc&#39; &gt;&gt; ~/.bash_profile √
-> &gt; source ~/.bashrc
+![](figures/vmd_path_actualizado.png)
+Figura 6b. Variable de entorno PATH actualizada con la ubicación de nuestra aplicación VMD.
+
+> **NOTA:** Para que el nuevo PATH se guarde de forma permanente es necesario editar el archivo **.bashrc**
+> ubicado en el directorio de inicio del usuario. El punto al inicio del nombre indica que es un archivo oculto,
+> lo podemos verificar con `ls -a ~/.bashrc`. 
+
+**Editar archivo `~/.bashrc`**
+
+Para una configuración permanente del **PATH** agregamos en el archivo `~/.bashrc` la línea: `export PATH=/home/tobias/bin:$PATH`. O bien **si no existen 
+`~/.bashrc` ni `~/.bash_profile`** los podemos generar desde una terminal:
+
+```console
+> echo 'export PATH="/home/tobias/bin:$PATH"' >> ~/.bashrc
+> echo 'source ~/bashrc' >> ~/.bash_profile
+```
 
 **EJECUCIÓN DE VMD**
 
 Desde una terminal del sistema operativo (shell):
 
 ```console
+> cd mi_directorio_de_trabajo
 > vmd
 ```
 
 ![](figures/vmd_console.png)
 Figura 6. Consola de VMD.
 
-> **NOTA:** El directorio de trabajo es el mismo en donde se ha realizado la instalacion, en este
-> caso `/home/tobias/lib/vmd/`
+> **NOTA:** El directorio de trabajo es cualquiera. La instalación de **vmd** en este
+> caso se hizo en `/home/tobias/bin` y sus librerías están en `/home/tobias/lib/vmd/`.
 
-Ventanas que se despliegan (VMD OpenGL Display y VMD Main)
+Al iniciar **vmd** se despliegan otras dos ventanas (VMD OpenGL Display y VMD Main)
 ![](figures/vmd_display_main.png)
 Figura 7. Ventana Open GL (A) y ventana Main (B)
 
-**Iniciar y guardar una sesión**
+**Abrir una estructura PDB desde la terminal**
 
-Los archivos que se pueden abrir con VMD son aquellos que continene informacion sobre las
-coordenadas de los atomos de o una molécula, comunmnete archivos como los que se pueden
-encontrar en el Protein Data Bank (PDB). Podemos descargar un archivo de este tipo por medio
-del siguiente comando:
+Los archivos que se pueden abrir con VMD son aquellos que continene información sobre las
+coordenadas de los átomos de o una molécula, comúnmnete archivos como los que se pueden
+encontrar en el **Protein Data Bank** (PDB). Podemos descargar un archivo de este tipo directamente del sitio web, por ejemplo **3NIR.pdb**. Para ello usamos
+el comando `wget`:
 
 ```console
->$ wget https://files.rcsb.org/view/3NIR.pdb
+> wget https://files.rcsb.org/view/3NIR.pdb
+> vmd 3NIR.pdb
 ```
-
-## Ejercicio 1. Representaciones del ADN 
-
-## Ejercicio 2. Generación de una imagen de alta resolución
 
 
 # Referencias
+
+
+[1]: ./ejercicio1.md
+[2]: ./ejercicio2.md
 
